@@ -17,18 +17,23 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
 {
-    $validator = Validator::make($request->all(), [
+    $validator = Validator::make($request->all(),
+    [
         'email' =>'required|email',
         'password' => 'required|max:255',
-         ])->validate();
-    if (Auth::attempt(request()->only(['email','password'])))
+    ],
+    [
+        'email.required' => " You need to Enter your email address",
+        'password.required' => "You need to enter your password",
+    ])->validate();
+    //dd($validator);
+    if (Auth::attempt($validator))
     {
         // Authentication passed...
         return redirect()->route('home');
-    } else {
-        // Authentication failed...
-        return redirect()->route('login')->with("error", "Wrong Input");
-    }
+        
+    } // Authentication failed...
+    else return back()->withErrors(['error'=>"Wrong Input"]);
 }
     public function logout()
     {

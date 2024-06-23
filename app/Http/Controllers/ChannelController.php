@@ -57,7 +57,7 @@ class ChannelController extends Controller
               ->update(
                 ['FullName'=>$request->input('Name'),
                  'Des'=>$request->input('Des')]);
-                 return redirect()->back();
+                 return redirect()->route('Channel.show',auth()->user()->id)->with(['success'=>'Edit Success']);
        
     
     }
@@ -66,7 +66,7 @@ class ChannelController extends Controller
     {
         $video = Video::find($id);
         $video = DB::table('videos')->where('Id', $id)->delete();
-        return redirect()->back();
+        return redirect()->route('Channel.show',auth()->user()->id)->with(['success'=>'Delete Success']);
     }
 
 
@@ -81,13 +81,13 @@ class ChannelController extends Controller
             'Name' =>'required|max:100',
             'Des' => 'max:255',
             'Video' => 'required'
-            //mimes:mp4
         ]);
+        //Validate Failed
         if ($validator->fails()) 
         {
             return redirect()->back()->with('error','validation failed');
         }
-        //dd($request->file());
+        //Validate Successful
         $VideoThumnail = time() . '.' . $request->file('Avatar')->extension();
         $VideoUrl = time() . '.' . $request->file('Video')->extension();
         //($VideoThumnail,$VideoUrl);
@@ -101,7 +101,7 @@ class ChannelController extends Controller
         $video->VideoUrl = 'Video'  . '/' .$VideoUrl;
        if( $video->save())
        return redirect()->route('Channel.show',['id'=>auth()->user()->id])->with('success', 'You have successfully add new video');
-       else return redirect()->back()->with('failed', 'Error');
+       else return redirect()->back()->with('error', 'Error');
     }
 
     public function channel ($id) 

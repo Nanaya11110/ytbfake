@@ -11,19 +11,19 @@
         </ul>
     </div>
 @endif</div>
-<div class="flex w-full">
+<div class="flex lg:flex-row w-full">
 @include('layout.particals.aside')
 <!--CONTENT-->
-<div class="w-full min-h-2 ">
+<div class="w-full min-h-2">
     <?php $i=1; ?>
     @if (isset($video))
     @foreach ($video as $item )
     <!--CONTAINER-->
-    <div class=" w-full h-36  flex my-5">
+    <div class=" overflow-hidden"><div class=" lg:w-full md:w-full h-36 flex my-5 hover:scale-105 transition-all duration-150 ">
         <!--STT-->
         <div class=" w-1/12 flex items-center justify-center text-white"><p><b><?php echo "$i"?></b></p></div>
         <!--IMAGE-->
-        <div class="w-1/5 h-full overflow-hidden flex mx-5">
+        <div class="lg:w-1/5 md:w-3/5 h-full overflow-hidden flex mx-5">
             <a class="" href="{{route('Detail',['id'=>$item['Fullname']])}}"> 
             <img class=" w-full h-full rounded-xl " src="{{ $item['Url'] }}" alt="{{$item['Fullname']}}}"></a>
         </div>
@@ -38,12 +38,12 @@
                 <img class=" w-10 h-10 rounded-full object-cover" src="{{$item['Avatar']}}">
                 <p>{{$item['User_name']}}</p></div></a>
         </div>
-    </div>
+    </div></div>
     <?php $i++?>
     @endforeach
     @else 
     <div class="w-full h-full flex items-center justify-center text-white">There are no Like Video</div>
-    @endif
-   
+    @endif  
+</div>
 </div>
 @stop

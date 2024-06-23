@@ -1,7 +1,7 @@
-<aside class=" w-1/3 float-right">
+<aside class=" lg:w-2/5 md:w-full float-right mr-5 bg-slate-900">
     <!--CONTAINER-->
     @foreach ($aside_video as  $item)
-    <a href="{{route('Detail',['id'=>$item->FullName])}}" class=" w-full flex mt-2">
+    <a href="{{route('Detail',['id'=>$item->FullName])}}" class=" w-full flex mt-2 hover:scale-105 transition-all duration-150">
         <!--IMAGE-->
         <div class=" w-3/4 flex justify-center items-center">
             <img src="/{{$item->Url}}" class=" w-4/5 h-4/5 bg-cover rounded-2xl">
@@ -12,7 +12,7 @@
             <div class=" text-gray-500">
                 <p></p>
                 <span class="mr-5">{{$item->View}} View</span>
-                <span>{{$item->Times}} hour</span>
+                <span>{{$item->Times}}</span>
             </div>
         </div>
     </a>

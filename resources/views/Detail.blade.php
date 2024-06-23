@@ -2,157 +2,155 @@
 @extends('layout.master')
 @section('content')
 @section('title',$video->FullName)
-@include('layout.particals.detail_aside')
+
 
 <!--CONTAINER-->
-<div class="w-auto min-h-2 flex">
-    <!--COMPOMENT 1-->
-    <div class=" w-4/5 min-h-2 mt-2 ml-8">
-        <!--IMAGES-->
-        <video width="1000" height="563" controls class=" rounded-xl">
-            <source src="/{{$video->VideoUrl}}" type="video/mp4">
+<div class=" lg:flex md:flex-col lg:flex-row pb-10  ">
+<div class=" w-4/5">
+    <!-- VIDEO-->
+    <div class="w-auto min-h-2 flex">
+        <div class=" lg:w-4/5 md:w-full min-h-2 mt-2 ml-8">
+            <video width="1000" height="563" controls class=" rounded-xl">
+                <source src="/{{$video->VideoUrl}}" type="video/mp4">
             </video>
-            
-      </div>
-</div>
-
-<!--CONTENT-->
-<h1 class=" ml-8 text-3xl break-words text-white">{{$video->FullName}}</h1>
-<div class="  flex justify-normal items-center mt-2 " style="width: 65%">
-    <!--AVATAR-->
-    <div class=" w-36 h-24 flex justify-center items-center ">
-        <div class=" w-1/2 h-1/2 rounded-full bg-cover bg-center" style="background-image: url('{{$user->Avatar}}')"></div>
-    </div>
-    <!--PROB-->
-    <div class="pl-1 text-white w-2/5 h-24 flex pt-3 ">
-        <div class=" w-full break-words ">
-            <p class=" text-2xl">{{$user->fullname}}</p>
-            <span>{{$user->subscribe}}</span>
         </div>
     </div>
-    <!--BUTTON-->
-    <div class="pl-1 text-white w-full h-auto flex mb-2 ">
-        <!--SUBSCRIBE-->
-        @if (Auth::check())
-        @if ($user->id == auth()->user()->id)
-            <!--HIDE THE SUB BUTTON IF THIS IS UR CHANNEL-->
-        <div class=" w-24 h-12 bg-slate-800 rounded-full text-center hidden">Subscribe</div>
-        @else 
-        @if ($sub == 1)
-            <!--HAD SUB-->
-        <form action="{{route('unSub',['id'=>$user->id])}}" method="GET">
-            @csrf
-            <button id="sub" onclick="Subscribe({{$user->id}},{{$sub}})"  class=" w-24 h-12 bg-slate-800 rounded-full text-center">Subscribed</button>
-        </form>
-        @else
-        <!--HAVENT SUB-->
-        <form action="{{route('subscribe',['id'=>$user->id])}}" method="GET">
-            @csrf
-            <button id="sub" onclick="Subscribe({{$user->id}},{{$sub}})"  class=" w-24 h-12 bg-slate-800 rounded-full text-center">Subscribe</button>
-        </form>
-        @endif
-        @endif     <form action="" method="get">
-            <input id="title" name="title" type="text">
-            <textarea id="content" name="content"></textarea>
-        </form>
-        @endif
-        
-         
-       
-        <!--LIKE AND DISLIKE-->
-        <form action="{{route('like',['id'=>$video->Id])}}" method="GET">
-            @csrf
-            <button id="like" data-like={{$like['like']}} onclick="Like({{$video->Id}})" class=" hover:bg-slate-700 transition-all ml-10 w-24 h-12 bg-slate-800 rounded-full rounded-r-none text-center border-r-2 border-r-gray-600">
-                {{$like['like']}}<p class=" inline ml-2">Like</p></button>
-        </form>
-        <form action="{{route('dislike',['id'=>$video->Id])}}" method="GET">
-            @csrf
-            <button id="dislike" data-dislike={{$like['dislike']}}  onclick="Dislike({{$video->Id}})" class="hover:bg-slate-700 transition-all w-24 h-12 bg-slate-800 rounded-full text-center rounded-l-none">{{$like['dislike']}}<p class=" inline ml-2">Dislike</p></button>
-        </form>
-        <div class=" w-24 h-12 ml-1 bg-slate-800 rounded-full pt-2.5 text-center"><p>Share</p></div>
-        <div class=" w-24 h-12 ml-1 bg-slate-800 rounded-full pt-2.5 text-center"><p>Dowload</p></div>
-    </div>
-</div>
-
-<!--DESCRIPTION-->
-
-<div class=" pl-2 text-white mt-5 p-2 " id="description" style="width:64%">
-    <span class="text-white pl-2">{{$video->View}} View</span>
-    <span class="text-white pl-2">{{$video->Times}}</span>
-    <div >
-        <p id="description-content">{{\Illuminate\Support\Str::limit($video->Des, 100)}}</p>
-    </div>
-    <button type="button" class=" text-gray-500 see-more-btn" onclick="seemore()"> See more</button>
-</div>
-<!--COMMENT-->
-    <div class=" min-h-2 ml-5" style="width: 60%">
-    <!--TOTAL COMMENT-->
-    @if(isset($comment))
-   
-        <div class=" mt-2 w-full h-16">
-            <p class="text-white pt-3 text-2xl" id="TotalComment" data-total={{count($comment)}}>{{count($comment)}} Comment</p></div> 
-    @else <div class=" mt-2 w-full h-16">
-        <p class="text-white pt-3 text-2xl">0 Comment</p></div> 
-    @endif
-    <!--COMMENT INPUT-->
-       <div class="flex w-full min-h-2 ">
-            <div class=" w-16 h-16 flex justify-center items-center ">
-                @if (!auth()->user())
-                <div class=" w-2/3 h-2/3 rounded-full bg-cover bg-center" style="background-image: url('/images/1715501544.jpg')"></div>
-                @else <div class=" w-2/3 h-2/3 rounded-full bg-cover bg-center" style="background-image: url('{{auth()->user()->Avatar}}')"></div>
-                @endif
+    <!--CONTENT-->
+    <h1 class=" ml-8 text-3xl break-words text-white">{{$video->FullName}}</h1>
+    <div class="  flex justify-normal items-center mt-2">
+        <!--AVATAR-->
+        <div class=" w-36 h-24 flex justify-center items-center ">
+            <div class=" w-1/2 h-1/2 rounded-full bg-cover bg-center" style="background-image: url('{{$user->Avatar}}')"></div>
+        </div>
+        <!--PROB-->
+        <div class="pl-1 text-white w-2/5 h-24 flex pt-3 ">
+            <div class=" w-full break-words ">
+                <p class=" text-2xl">{{$user->fullname}}</p>
+                <p>{{$sub}} sub</p>
+                <span>{{$user->subscribe}}</span>
             </div>
-            <form  class="w-4/6 h-full flex" action="{{route('comment',['comment'=>$video->Id])}}" method="POST"> 
+        </div>
+        <!--BUTTON-->
+        <div class="pl-1 text-white w-full h-auto flex mb-2 ">
+            <!--SUBSCRIBE-->
+            @if (Auth::check())
+            @if ($user->id == auth()->user()->id)
+                <!--HIDE THE SUB BUTTON IF THIS IS UR CHANNEL-->
+            <div class=" w-24 h-12 bg-slate-800 rounded-full text-center hidden">Subscribe</div>
+            @else 
+            @if ($sub == 1)
+                <!--HAD SUB-->
+            <form action="{{route('unSub',['id'=>$user->id])}}" method="GET">
                 @csrf
-                <input  placeholder="Comment Here" 
-                        type="text" 
-                        name="content" id="content"
-                        class="w-full h-10 bg-inherit border-b-2 border-black text-white 
-                        focus: outline-none focus:border-b-green-100  transition-colors duration-150 ">
-                <button id="CommentBtn" class="w-24 h-12 bg-gray-600 rounded-full text-white">Comment</button>
+                <button id="sub" onclick="Subscribe({{$user->id}},{{$sub}})"  class=" w-24 h-12 bg-slate-800 rounded-full text-center">Subscribed</button>
             </form>
-            <div class=" w-auto h-16  flex justify-center items-center ">
-               
-            </div>
+            @else
+            <!--HAVENT SUB-->
+            <form action="{{route('subscribe',['id'=>$user->id])}}" method="GET">
+                @csrf
+                <button id="sub" onclick="Subscribe({{$user->id}},{{$sub}})"  class=" w-24 h-12 bg-slate-800 rounded-full text-center">Subscribe</button>
+            </form>
+            @endif
+            @endif   
+            @endif
+            
+            
+        
+            <!--LIKE AND DISLIKE-->
+            <form action="{{route('like',['id'=>$video->Id])}}" method="GET">
+                @csrf
+                <button id="like" data-like={{$like['like']}} onclick="Like({{$video->Id}})" class=" hover:bg-slate-700 transition-all ml-10 w-24 h-12 bg-slate-800 rounded-full rounded-r-none text-center border-r-2 border-r-gray-600">
+                    {{$like['like']}}<p class=" inline ml-2">Like</p></button>
+            </form>
+            <form action="{{route('dislike',['id'=>$video->Id])}}" method="GET">
+                @csrf
+                <button id="dislike" data-dislike={{$like['dislike']}}  onclick="Dislike({{$video->Id}})" class="hover:bg-slate-700 transition-all w-24 h-12 bg-slate-800 rounded-full text-center rounded-l-none">{{$like['dislike']}}<p class=" inline ml-2">Dislike</p></button>
+            </form>
+            <button class=" w-24 h-12 ml-1 bg-slate-800 rounded-full text-center" onclick="Share()"><p>Share</p></button>
+            <a href="/{{$video->VideoUrl}}" download class=" w-24 h-12 ml-1 bg-slate-800 rounded-full pt-2.5 text-center"><p>Dowload</p></a>
         </div>
-        <!--THE COMMENTS-->
-    @if(isset($comment))
-        @foreach ($comment as $comment)
-            <div  class="w-full min-h-2">
-                <!--A COMMENT-->
-                <div class=" w-full min-h-2 mt-5" id="Comment{{$comment['Id']}}" >
-                    <div class="flex">
-                    <!--USER AVATAR COMMENT-->
-                    <div class=" w-16 h-16 flex justify-center items-center ">
-                        <img class=" w-2/3 h-2/3 rounded-full bg-cover bg-center" src="{{$comment['Avatar']}}">
-                    </div>
+    </div>
+    <!--DESCRIPTION-->
+    <div class=" pl-2 text-white mt-5 ml-4 p-2 " id="description" style="width:64%">
+        <span class="text-white">{{$video->View}} View</span>
+        <span class="text-white">{{$video->Times}}</span>
+        <div >
+            <p id="description-content">{{\Illuminate\Support\Str::limit($video->Des, 100)}}</p>
+        </div>
+        <button type="button" class=" text-gray-500 see-more-btn" onclick="seemore()"> See more</button>
+    </div>
+    <!--COMMENT-->
+        <div class=" min-h-2 ml-5 w-5/6">
+        <!--TOTAL COMMENT-->
+        @if(isset($comment))
+    
+            <div class=" mt-2 w-full h-16">
+                <p class="text-white pt-3 text-2xl" id="TotalComment" data-total={{count($comment)}}>{{count($comment)}} Comment</p></div> 
+        @else <div class=" mt-2 w-full h-16">
+            <p class="text-white pt-3 text-2xl">0 Comment</p></div> 
+        @endif
+        <!--COMMENT INPUT-->
+        <div class="flex w-full min-h-2 ">
+                <div class=" w-16 h-16 flex justify-center items-center ">
+                    @if (!auth()->user())
+                    <div class=" w-2/3 h-2/3 rounded-full bg-cover bg-center" style="background-image: url('/images/1715501544.jpg')"></div>
+                    @else <div class=" w-2/3 h-2/3 rounded-full bg-cover bg-center" style="background-image: url('{{auth()->user()->Avatar}}')"></div>
+                    @endif
+                </div>
+                <form  class="w-4/6 h-full flex" action="{{route('comment',['comment'=>$video->Id])}}" method="POST"> 
+                    @csrf
+                    <input  placeholder="Comment Here" 
+                            type="text" 
+                            name="content" id="content"
+                            class="w-full h-10 bg-inherit border-b-2 border-black text-white 
+                            focus: outline-none focus:border-b-green-100  transition-colors duration-150 ">
+                    <button id="CommentBtn" class="w-24 h-12 bg-gray-600 rounded-full text-white">Comment</button>
+                </form>
+                <div class=" w-auto h-16  flex justify-center items-center ">
                 
-                    <div class="w-4/5 min-h-2 ">
-                        <!--COMMENT INFO-->
-                        <div class="text-white">
-                            <span class=" text-xl">{{$comment['Name']}}</span>      
-                            <span class="pl-5"></span>
-                        </div>
-                        <!--COMMENT CONTENT-->
-                        
-                        <div class="w-full min-h-2 text-gray-500">{{$comment['comment']}}</div>
-                        <!--DELETE BUTTON-->
-                    @if (Auth::check() && auth()->user()->fullname == $comment['Name'])
-                        <form action="{{route('comment.delete',$comment['Id'])}}" method="GET">
-                            @csrf 
-                            <a id="DeleteComment" data-id={{$comment['Id']}} href="javascript:void(0)" onclick="DeleteComment({{$comment['Id']}})">Delete</a>
-                        </form>
-                     @endif
-                    </div>
-                    </div>
                 </div>
             </div>
-        @endforeach
-    @else <p>No comment here</p>
-    @endif
-   <div id="AddComment"></div>
-    <div class=" mt-10"></div>
-
+            <!--THE COMMENTS-->
+        @if(isset($comment))
+            @foreach ($comment as $comment)
+                <div  class="w-full min-h-2">
+                    <!--A COMMENT-->
+                    <div class=" w-full min-h-2 mt-5" id="Comment{{$comment['Id']}}" >
+                        <div class="flex">
+                        <!--USER AVATAR COMMENT-->
+                        <div class=" w-16 h-16 flex justify-center items-center ">
+                            <img class=" w-2/3 h-2/3 rounded-full bg-cover bg-center" src="{{$comment['Avatar']}}">
+                        </div>
+                    
+                        <div class="w-4/5 min-h-2 ">
+                            <!--COMMENT INFO-->
+                            <div class="text-white">
+                                <span class=" text-xl">{{$comment['Name']}}</span>      
+                                <span class="pl-5"></span>
+                            </div>
+                            <!--COMMENT CONTENT-->
+                            
+                            <div class="w-full min-h-2 text-gray-500">{{$comment['comment']}}</div>
+                            <!--DELETE BUTTON-->
+                        @if (Auth::check() && auth()->user()->fullname == $comment['Name'])
+                            <form action="{{route('comment.delete',$comment['Id'])}}" method="GET">
+                                @csrf 
+                                <a id="DeleteComment" data-id={{$comment['Id']}} href="javascript:void(0)" onclick="DeleteComment({{$comment['Id']}})">Delete</a>
+                            </form>
+                        @endif
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @else <p>No comment here</p>
+        @endif
+    <div id="AddComment"></div>
+    </div>
+    
+</div>
+    @include('layout.particals.detail_aside')
+</div>
 <script>
     function seemore()
     {
@@ -338,5 +336,11 @@
             }
             })
     };
+    function Share()
+    {
+        var copyText = window.location.href;
+        navigator.clipboard.writeText(copyText); 
+        alert("Link Copied");
+    }
 </script>
 @stop

@@ -8,7 +8,7 @@
   </div>
 @endif
 @if(session('success'))
-    <p class="bg-green-500">{{ session('success') }}</p>
+    <div class=" alert alert-success text-center"> {{session()->get('success')}}</div>
 @endif
 
 <div class="flex">
@@ -33,7 +33,7 @@
         </td>
         <td class=" text-center"><p>{{$item->FullName}}</p></td>
         <td class=" text-center"><p>{{$item->View}} View</p></td>
-        <td class=" text-center"><p>{{$item->Times}} Hours</p></td>
+        <td class=" text-center"><p>{{$item->Times}}</p></td>
       </tr>
     @endforeach
   </table>
