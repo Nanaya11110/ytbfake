@@ -10,10 +10,11 @@
 @if(session('success'))
     <div class=" alert alert-success text-center">{{session()->get('success')}}</div>
 @endif
-<div class="flex lg:flex-row md:flex-col sm:flex-col w-full">
+<div class="flex  w-full">
 @include('layout.particals.aside')
 <!--CONTENT-->
-<div class="w-full min-h-2 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+
+<div class="w-full min-h-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 ">
     @foreach ($video as $item)
     <!--COMPOMENT 1-->
     <div class=" lg:w-80 md:w-80 sm:w-4/5 h-72 hover:scale-105 transition-all duration-100 m-2 ml-5  ">

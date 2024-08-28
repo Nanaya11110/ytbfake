@@ -15,7 +15,7 @@
     @csrf
     <!--IMAGE-->
     <div class=" w-1/3 h-full  flex flex-col items-center justify-center ">
-    <img src="{{auth()->user()->Avatar}}" class=" w-1/2 h-1/2 rounded-full">
+    <img src="{{auth()->user()->Avatar}}" class=" w-1/2 h-1/2 rounded-full object-cover">
     <input type="file" id="avatar" name="avatar" class=" opacity-0 w-0 h-0 overflow-hidden absolute -z-10">
     <label for="avatar" class=" text-white p-5">Choose a image</label>
     @if($errors->has('avatar'))
